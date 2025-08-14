@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Edit Menu</title>
+</head>
+<body>
+  <h1>Edit Menu</h1>
+  <form id="menu-form">
+    <label>Project ID: <input id="projectId" /></label><br />
+    <textarea id="items" rows="10" cols="50" placeholder='[{"name":"Soup","quantity":10,"price":5}]'></textarea><br />
+    <button type="submit">Save Menu</button>
+  </form>
+  <pre id="result"></pre>
+  <script>
+    document.getElementById('menu-form').addEventListener('submit', async e => {
+      e.preventDefault();
+      const projectId = document.getElementById('projectId').value;
+      const items = JSON.parse(document.getElementById('items').value || '[]');
+      const res = await fetch(`/projects/${projectId}/menu`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items })
+      });
+      const data = await res.json();
+      document.getElementById('result').textContent = JSON.stringify(data.resources, null, 2);
+    });
+  </script>
+</body>
+</html>

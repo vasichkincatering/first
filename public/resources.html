@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Project Resources</title>
+</head>
+<body>
+  <h1>Project Resources</h1>
+  <form id="resource-form">
+    <label>Project ID: <input id="projectId" /></label>
+    <button type="submit">Load</button>
+  </form>
+  <pre id="output"></pre>
+  <script>
+    document.getElementById('resource-form').addEventListener('submit', async e => {
+      e.preventDefault();
+      const projectId = document.getElementById('projectId').value;
+      const res = await fetch(`/projects/${projectId}/resources`);
+      const data = await res.json();
+      document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+    });
+  </script>
+</body>
+</html>
